@@ -13,27 +13,6 @@ public class Stack<T> implements Iterable<T> {
     // 栈顶
     private Node top = null;
 
-    @Override
-    public Iterator<T> iterator() {
-        return new Iterator<>() {
-            private Node current = top;
-
-            @Override
-            public boolean hasNext() {
-                // 当栈顶不为空时，则还有元素
-                return current != null;
-            }
-
-            @Override
-            public T next() {
-                // 于pop方法类似
-                T t = current.t;
-                current = current.next;
-                return t;
-            }
-        };
-    }
-
     // 结点类，一种数据结构，链表
     private class Node {
         T t;
@@ -68,5 +47,26 @@ public class Stack<T> implements Iterable<T> {
         top = top.next;
         N--;
         return t;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<>() {
+            private Node current = top;
+
+            @Override
+            public boolean hasNext() {
+                // 当栈顶不为空时，则还有元素
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                // 于pop方法类似
+                T t = current.t;
+                current = current.next;
+                return t;
+            }
+        };
     }
 }

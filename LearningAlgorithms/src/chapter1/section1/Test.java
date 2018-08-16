@@ -9,18 +9,18 @@ import edu.princeton.cs.algs4.In;
  */
 public class Test {
     public static void main(String[] args) {
-        Stack<String> stack = new Stack<>();
+        Queue<String> queue = new Queue<>();
         In in = new In("test.txt");
         while (!in.isEmpty()) {
             String s = in.readString();
             if (!"-".equals(s)) {
-                stack.push(s);
+                queue.enqueue(s);
             } else {
-                System.out.println(stack.pop());
+                System.out.println(queue.dequeue());
             }
         }
-        System.out.println("剩余" + stack.size() + "个元素");
-        for (String s : stack) {
+        System.out.println("剩余" + queue.size() + "个元素");
+        for (String s : queue) {
             System.out.println(s);
         }
     }

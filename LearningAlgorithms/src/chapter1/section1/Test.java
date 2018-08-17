@@ -1,5 +1,8 @@
 package chapter1.section1;
 
+import chapter1.section1.exercise.Queue;
+import edu.princeton.cs.algs4.In;
+
 /**
  * @Auther: yusiming
  * @Date: 2018/8/16 11:03
@@ -7,12 +10,20 @@ package chapter1.section1;
  */
 public class Test {
     public static void main(String[] args) {
-        Bag<Integer> bag = new Bag<>();
-        for (int i = 0; i < 10; i++) {
-            bag.add(i);
+        Queue<String> queue = new Queue<>();
+        In in =  new In("test.txt");
+        while (!in.isEmpty()) {
+            String s = in.readString();
+            if (!s.equals("-")) {
+                queue.enqueue(s);
+            } else {
+                System.out.print(queue.dequeue() + " ");
+            }
         }
-        for (int i : bag) {
-            System.out.println(i);
+        System.out.println("");
+        System.out.println("还剩" + queue.size() +"个元素");
+        for (String s:queue) {
+            System.out.println(s);
         }
     }
 }

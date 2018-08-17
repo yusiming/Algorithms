@@ -5,23 +5,28 @@ package chapter1.section1;
  * @Date: 2018/8/16 10:40
  * @Description: 使用数组实现定容String栈
  */
-public class FixedCapcityStackOfString {
+public class FixedCapacityStackOfStrings {
     // 使用一个数组来保存元素
     private String[] a;
     // N为数组中元素的个数，即栈的长度
     private int N = 0;
 
-    public FixedCapcityStackOfString() {
+    public FixedCapacityStackOfStrings() {
     }
 
     // 初始化数组的大小
-    public FixedCapcityStackOfString(int cap) {
+    public FixedCapacityStackOfStrings(int cap) {
         a = new String[cap];
     }
 
-    // 判断数组是否为空
+    // 判断栈是否为空
     public boolean isEmpty() {
         return N == 0;
+    }
+
+    // 判断栈是否已满
+    public boolean isFull() {
+        return N == a.length;
     }
 
     // 返回栈的大小

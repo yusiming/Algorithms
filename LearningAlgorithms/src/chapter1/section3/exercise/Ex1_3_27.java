@@ -1,4 +1,4 @@
-package chapter1.section1.exercise;
+package chapter1.section3.exercise;
 
 /**
  * @Auther: yusiming

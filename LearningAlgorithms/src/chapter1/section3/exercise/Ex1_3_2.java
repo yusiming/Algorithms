@@ -1,6 +1,6 @@
-package chapter1.section1.exercise;
+package chapter1.section3.exercise;
 
-import chapter1.section1.Stack;
+import chapter1.section3.Stack;
 import edu.princeton.cs.algs4.In;
 
 /**

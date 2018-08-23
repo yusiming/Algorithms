@@ -10,9 +10,9 @@ import edu.princeton.cs.algs4.In;
  */
 public class Test {
     public static void main(String[] args) {
-        In in = new In("mediumUF.txt");
+        In in = new In("largeUF.txt");
         int N = in.readInt();
-        QuickUnionUF UF = new QuickUnionUF(N);
+        WeightedQuickUnionUF UF = new WeightedQuickUnionUF(N);
         StopWatch stopWatch = new StopWatch();
         while (!in.isEmpty()) {
             int p = in.readInt();

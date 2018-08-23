@@ -1,7 +1,7 @@
 package chapter1.section4;
 
 import chapter1.section3.BinarySearch;
-import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Arrays;
@@ -13,11 +13,18 @@ import java.util.Arrays;
  */
 public class ThreeSum {
     public static void main(String[] args) {
-        In in = new In("4Kints.txt");
-        int[] ints = in.readAllInts();
-        StopWatch stopWatch = new StopWatch();
-        int count = countFast(ints);
-        System.out.println(count + "  " + stopWatch.elapsedTime());
+        //0.016
+        // 0.0
+        // 0.094
+        // 0.64
+        // 4.764
+        // 32.214
+        double prev = timeTrial(150);
+        for (int i = 250; true; i += i) {
+            double timeTrial = timeTrial(i);
+            StdOut.printf("%6d %7.1f", i, timeTrial);
+            StdOut.printf("%5.1f\n",  timeTrial/prev);
+        }
     }
 
     /**
@@ -63,7 +70,7 @@ public class ThreeSum {
         return count;
     }
 
-    private static void timeTrial(int N) {
+    private static double timeTrial(int N) {
         int[] a = new int[N];
         int Max = 1000000;
         for (int i = 0; i < N; i++) {
@@ -71,6 +78,6 @@ public class ThreeSum {
         }
         StopWatch stopWatch = new StopWatch();
         int count = count(a);
-        System.out.println(N + "  " + stopWatch.elapsedTime());
+        return stopWatch.elapsedTime();
     }
 }

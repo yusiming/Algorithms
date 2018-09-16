@@ -8,7 +8,7 @@ import java.util.Iterator;
  * @Description: 使用环形链表实现Queue
  */
 public class Queue<T> implements Iterable<T> {
-    // 只使用lst来实现进出队列
+    // 只使用last来实现进出队列
     private Node last = null;
     private int N = 0;
 

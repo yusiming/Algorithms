@@ -51,7 +51,7 @@ public class ResizingArrayStack<T> implements Iterable<T> {
         a[N] = null;
         // 若栈的大小是数组的四分之一，则将数组的大小变为原来的二分之一，这样栈还有二分之一的空间使用
         if (N > 0 && N == a.length / 4) {
-            resize(N / 2);
+            resize(N * 2);
         }
         return t;
     }

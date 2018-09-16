@@ -11,9 +11,9 @@ public class Queue<T> implements Iterable<T> {
     // 队列的长度
     private int N = 0;
     // 头部结点
-    private Node first = null;
+    Node first = null;
     // 尾部结点
-    private Node last = null;
+    Node last = null;
 
     private class Node {
         T t;
@@ -52,7 +52,7 @@ public class Queue<T> implements Iterable<T> {
         // 若队列中只剩一个元素，first与last相等，first.next已经为空
         first = first.next;
         // 若只剩一个元素时，删除该元素，但last仍然指向最后一个元素，所以要将last置为null
-        if (N == 0) {
+        if (N == 1) {
             last = null;
         }
         N--;
@@ -63,6 +63,7 @@ public class Queue<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<>() {
             private Node current = first;
+
             @Override
             public boolean hasNext() {
                 return current != null;

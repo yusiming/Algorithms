@@ -7,46 +7,41 @@ package chapter2.section1;
  * h不断较小，最后为1，保证了数组最后一定是有序的，
  */
 public class Shell {
+    // 任何实现了Comparable 接口的数据类型，都可以使用compareTo 方法进行比较
+    public static boolean less(Comparable a ,Comparable b) {
+        return a.compareTo(b) < 0;
+    }
+    // 交换数据
+    public static void exch(Comparable[ ] a,int i, int j) {
+        Comparable t  =  a[i];
+        a[i] = a[j];
+        a[j] = t;
+    }
+    // 将数组a 按升序排序
     public static void sort(Comparable[] a) {
         int N = a.length;
         int h = 1;
-        // 为了保证h最后为1，h的值从 1、4、13、40......
-        while (h < N / 3) {
+        while(h < N/3) {
             h = h * 3 + 1;
         }
-        while (h >= 1) {
-            for (int i = h; i < N; i++) {
-                for (int j = i; j >= h && less(a[j], a[j - h]); j -= h) {
-                    exch(a, j, j - h);
+        while(h >= 1) {
+            for(int i=h;i < N;i++) {
+                for(int j = i; j >= h && less(a[j],a[j-h]) ;j -=h) {
+                    exch(a,j,j-h);
                 }
             }
             h = h / 3;
         }
     }
 
-    private static boolean less(Comparable v, Comparable w) {
-        return v.compareTo(w) < 0;
-    }
-
-    private static void exch(Comparable[] a, int i, int j) {
-        Comparable t = a[i];
-        a[i] = a[j];
-        a[j] = t;
-    }
-
-    public static void show(Comparable[] a) {
-        for (Comparable t : a) {
-            System.out.print(t + " ");
+    public static void main(String[] args) {
+        Comparable[] a = new Comparable[10];
+        for (int i = 0; i < 10; i++) {
+            a[i] = (int) (Math.random() * 100);
         }
-        System.out.println();
-    }
-
-    public static boolean isSorted(Comparable[] a) {
-        for (int i = 1; i < a.length; i++) {
-            if (less(a[i], a[i - 1])) {
-                return false;
-            }
+        sort(a);
+        for (int i = 0; i < 10; i++) {
+            System.out.println(a[i]);
         }
-        return true;
     }
 }

@@ -6,6 +6,8 @@ package chapter2.section1;
  * @Description: 插入排序
  */
 public class Insertion {
+    static int count;
+
     /**
      * @Description: 从a[1] 到 a[N-1]之间，的每一个a[i]；
      * 从a[0] 到 a[i-1]之间元素的值，比a[i]小，则依此交换它们的位置
@@ -18,13 +20,14 @@ public class Insertion {
         int N = a.length;
         for (int i = 1; i < N; i++) {
             // 若a[j-1] < a[j] 交换他们的位置，j 的大小从 i 到 1
-            for (int j = i; j > 0 && less(a[j],a[j-1]); j--) {
+            for (int j = i; j > 0 && less(a[j], a[j - 1]); j--) {
                 exch(a, j, j - 1);
             }
         }
     }
 
     private static boolean less(Comparable v, Comparable w) {
+        count++;
         return v.compareTo(w) < 0;
     }
 

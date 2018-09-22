@@ -15,24 +15,6 @@ public class SequentialSearchST<Key, Value> {
     // 符号表的大小
     private int N = 0;
 
-    private Iterator<Key> iterator() {
-        return new Iterator<Key>() {
-            Node x = first;
-
-            @Override
-            public boolean hasNext() {
-                return x != null;
-            }
-
-            @Override
-            public Key next() {
-                Key key = x.key;
-                x = x.next;
-                return key;
-            }
-        };
-    }
-
     private class Node {
         Key key;
         Value value;
@@ -54,6 +36,10 @@ public class SequentialSearchST<Key, Value> {
      * @return: Value
      */
     public Value get(Key key) {
+        // 当链表为空时，返回null
+        if (N == 0) {
+            return null;
+        }
         for (Node x = first; x != null; x = x.next) {
             if (key.equals(x.key)) {
                 // 命中
@@ -112,6 +98,24 @@ public class SequentialSearchST<Key, Value> {
      */
     public Iterable<Key> keys() {
         return this::iterator;
+    }
+
+    private Iterator<Key> iterator() {
+        return new Iterator<Key>() {
+            Node x = first;
+
+            @Override
+            public boolean hasNext() {
+                return x != null;
+            }
+
+            @Override
+            public Key next() {
+                Key key = x.key;
+                x = x.next;
+                return key;
+            }
+        };
     }
 
     /**

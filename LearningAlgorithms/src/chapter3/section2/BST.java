@@ -1,5 +1,7 @@
 package chapter3.section2;
 
+import chapter1.section3.Queue;
+
 /**
  * 使用链表来实现二叉树这种数据结构，
  * 每一个结点包含一个左子节点、右子节点、键值对、子树的结点数量(包含结点本身)
@@ -397,6 +399,55 @@ public class BST<Key extends Comparable<Key>, Value> {
         showKeys(node.left);
         System.out.println(node.key);
         showKeys(node.right);
+    }
+
+    /**
+     * 返回所有key的集合
+     *
+     * @param: []
+     * @return: java.lang.Iterable<Key>
+     */
+    public Iterable<Key> keys() {
+        return keys(min(), max());
+    }
+
+    /**
+     * 返回表中start 到 end 范围中的key的集合
+     *
+     * @param start 开始位置
+     * @param end   结束
+     * @return: java.lang.Iterable<Key>
+     */
+    public Iterable<Key> keys(Key start, Key end) {
+        if (start == null) {
+            throw new IllegalArgumentException("start位置不能为null");
+        }
+        if (end == null) {
+            throw new IllegalArgumentException("end位置不能为null");
+        }
+        Queue<Key> queue = new Queue<>();
+        keys(root, queue, start, end);
+        return queue;
+    }
+
+    private void keys(Node node, Queue<Key> queue, Key start, Key end) {
+        if (node == null) {
+            return;
+        }
+        int compareToStart = start.compareTo(node.key);
+        int compareToEnd = end.compareTo(node.key);
+        // 若start 小于node.key 证明node左子树有可能有key在start和end中间
+        if (compareToStart < 0) {
+            keys(node.left, queue, start, end);
+        }
+        // 若key在start和end中间，添加到队列中
+        if (compareToStart <= 0 && compareToEnd >= 0) {
+            queue.enqueue(node.key);
+        }
+        // 若end大于key证明，右子树有可能有key在 start和end中间
+        if (compareToEnd >= 0) {
+            keys(node.right, queue, start, end);
+        }
     }
 
     /**

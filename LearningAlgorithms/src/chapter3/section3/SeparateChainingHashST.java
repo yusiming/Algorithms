@@ -14,11 +14,11 @@ public class SeparateChainingHashST<Key, Value> {
     /**
      * 散列表中键值对的个数
      */
-    private int n;
+    private int n = 0;
     /**
      * 散列表的大小
      */
-    private int m;
+    private int m = 0;
     /**
      * 数组中每一个位置存放一个链表
      */

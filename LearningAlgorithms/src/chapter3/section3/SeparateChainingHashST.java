@@ -1,4 +1,6 @@
-package chapter3.section1;
+package chapter3.section3;
+
+import chapter3.section1.SequentialSearchST;
 
 /**
  * 基于拉链法的散列表的实现

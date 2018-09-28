@@ -3,7 +3,8 @@ package chapter3.section2;
 import chapter1.section3.Queue;
 
 /**
- * 使用链表来实现二叉树这种数据结构，
+ * 基于二叉树的符号表的实现
+ * <p>
  * 每一个结点包含一个左子节点、右子节点、键值对、子树的结点数量(包含结点本身)
  * 每一个节点中的key的值都大于它的左子节点的中的key的值，小于它的右子节点中的key的值
  *
@@ -11,7 +12,9 @@ import chapter1.section3.Queue;
  * @Date: 2018/9/23 16:00
  */
 public class BST<Key extends Comparable<Key>, Value> {
-    // 整个符号表的根节点
+    /**
+     * 整个二叉树的根节点
+     */
     private Node root = null;
 
     public BST() {
@@ -32,12 +35,19 @@ public class BST<Key extends Comparable<Key>, Value> {
         private int N;
     }
 
-    // 返回表中键值对的数量
+    /**
+     * @return 返回表中键值对的数量
+     */
     public int size() {
         return size(root);
     }
 
-    // 返回指定结点的子树中的总结点数，包含结点本身
+    /**
+     * 返回指定结点的子树中结点的数量，包含结点本身
+     *
+     * @param node 结点
+     * @return 数量
+     */
     private int size(Node node) {
         // 若结点为null，返回0
         if (node == null) {
@@ -49,18 +59,20 @@ public class BST<Key extends Comparable<Key>, Value> {
     /**
      * 返回指定key的value值,若key不存在返回null,若表为空，返回null；
      *
-     * @param: [key]
-     * @return: Value
+     * @param key 键
+     * @return 键对应的值
      */
     public Value get(Key key) {
         return get(root, key);
     }
 
     /**
-     * 在以node根节点的数下查找key对应的value的值
+     * 在以node为根节点的树下查找key对应的value的值
+     * <p>
+     * 若不存在返回null
      *
-     * @param: [node]
-     * @return: Value
+     * @param node 指定结点
+     * @return Value
      */
     private Value get(Node node, Key key) {
         if (key == null) {
@@ -88,40 +100,56 @@ public class BST<Key extends Comparable<Key>, Value> {
     /**
      * 插入指定的键值对，若key已经存在，则更新value的值
      *
-     * @param: [key, value]
-     * @return: void
+     * @param key   键
+     * @param value 值
      */
     public void put(Key key, Value value) {
         root = put(root, key, value);
     }
 
     /**
+     * 在以指定的结点为根的子树中，插入键值对
+     * <p>
      * 此方法返回更新过的树结点，
      *
-     * @param: [node, key, value]
-     * @return:
+     * @param node  结点
+     * @param key   键
+     * @param value 值
+     * @return 更新过后的结点
      */
     private Node put(Node node, Key key, Value value) {
+        /*
+         * put方法的思想：
+         * 若key存在于树中，则更新value的值
+         * 若key不存在于树中，则创建新的结点，
+         * 并更新经过递归调用的结点的子结点，和N的值，
+         * 可以将递归调用前的代码，想象成沿着树往下走
+         * 将递归调用后的代码，想象成沿着树往上爬，边爬边更新结点
+         */
         if (node == null) {
             return new Node(key, value, 1);
         }
         int camp = key.compareTo(node.key);
         if (camp < 0) {
+            // 递归并跟新左子节点
             node.left = put(node.left, key, value);
         } else if (camp > 0) {
+            // 递归并跟新右子节点
             node.right = put(node.right, key, value);
         } else {
+            // 更新value的值
             node.value = value;
         }
+        // 更新N的值
         node.N = size(node.left) + size(node.right) + 1;
+        // 返回更新过的结点
         return node;
     }
 
     /**
      * 返回表中最小的键
      *
-     * @param: []
-     * @return: Key
+     * @return key
      */
     public Key min() {
         if (isEmpty()) {
@@ -131,15 +159,18 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     /**
-     * 返回表中的最小的key，若标为空，返回null
+     * 返回以指定结点为根的子树中最小的key
+     * <p>
+     * 若结点的左子节点为空，证明该结点的key就是最小的
      *
-     * @param: [node]
-     * @return: Key
+     * @param node 结点
+     * @return Key
      */
     private Node min(Node node) {
         if (node.left == null) {
             return node;
         } else {
+            // 若node的左子结点不为空，那么到node.left结点找最小的结点，直到有一个结点的左子节点为空
             return min(node.left);
         }
     }
@@ -147,8 +178,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     /**
      * 返回表中最大的key
      *
-     * @param: []
-     * @return: Key
+     * @return Key
      */
     public Key max() {
         if (isEmpty()) {
@@ -157,6 +187,14 @@ public class BST<Key extends Comparable<Key>, Value> {
         return max(root);
     }
 
+    /**
+     * 返回以指定结点为根的子树中最大的key
+     * <p>
+     * 若结点的右子节点为空，证明该结点的key就是最大的
+     *
+     * @param node 结点
+     * @return Key
+     */
     private Key max(Node node) {
         if (node.right == null) {
             return node.key;
@@ -183,12 +221,19 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     /**
-     * 返回指定根节点的书中，小于等于key的最大结点
+     * 返回指定根节点的树中，小于等于key的最大结点
      *
-     * @param: [node, key]
-     * @return: node   小于等于key的最大结点
+     * @param node 结点
+     * @param key  键
+     * @return node   小于等于key的最大结点
      */
     private Node floor(Node node, Key key) {
+        /*
+         * 若key就等于node.key，那么node.key就是小于等于key的最大结点
+         * 若key小于node.key，那么小于等于key的最大节点在node.left节点中，
+         * 若key大于node.key，那么只有当node.right中有小于等于key的结点时，node.right中才存在小于等于key的最大结点
+         * 若node.right中的结点都大于key，那么node就是小于等于key的最大结点
+         */
         if (node == null) {
             return null;
         }
@@ -208,8 +253,8 @@ public class BST<Key extends Comparable<Key>, Value> {
     /**
      * 返回大于等于key的最小的key
      *
-     * @param: []
-     * @return: Key
+     * @param key 键
+     * @return Key 键
      */
     public Key ceiling(Key key) {
         if (key == null) {
@@ -274,6 +319,7 @@ public class BST<Key extends Comparable<Key>, Value> {
             // 继续在右子节点中查找第 n - leftSize - 1 结点，因为右子节点也是从 0 开始的
             return select(node.right, n - leftSize - 1);
         }
+        // 若leftSize大于n，则继续在左子节点中寻找第n个数
         return select(node.left, n);
     }
 
@@ -291,6 +337,8 @@ public class BST<Key extends Comparable<Key>, Value> {
     }
 
     /**
+     * 删除指定结点中的最小的结点
+     *
      * @param node 删除node结点中的最小结点
      * @return Node 删除指定节点后返回的结点
      */
@@ -308,8 +356,6 @@ public class BST<Key extends Comparable<Key>, Value> {
 
     /**
      * 删除最大的键对应的值
-     *
-     * @return: void
      */
     public void deleteMax() {
         if (isEmpty()) {
@@ -335,7 +381,6 @@ public class BST<Key extends Comparable<Key>, Value> {
      * 删除键为key的结点
      *
      * @param key 删除节点的key
-     * @return void
      */
     public void delete(Key key) {
         if (key == null) {
@@ -379,6 +424,7 @@ public class BST<Key extends Comparable<Key>, Value> {
             node.N = size(node.left) + size(node.right) + 1;
             // 更新链接
         }
+        // 返回更新过的node
         return node;
     }
 
@@ -453,8 +499,7 @@ public class BST<Key extends Comparable<Key>, Value> {
     /**
      * 判断表是否为空
      *
-     * @param: []
-     * @return: boolean
+     * @return boolean
      */
     private boolean isEmpty() {
         return size() == 0;

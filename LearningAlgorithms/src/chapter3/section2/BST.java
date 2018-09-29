@@ -63,6 +63,9 @@ public class BST<Key extends Comparable<Key>, Value> {
      * @return 键对应的值
      */
     public Value get(Key key) {
+        if (key == null) {
+            throw new IllegalArgumentException("键不能为空");
+        }
         return get(root, key);
     }
 
@@ -76,7 +79,7 @@ public class BST<Key extends Comparable<Key>, Value> {
      */
     private Value get(Node node, Key key) {
         if (key == null) {
-            throw new IllegalArgumentException("调用方法时，给参数传递了一个空值");
+            return null;
         }
         // 若node为null，则返回null
         if (node == null) {
@@ -104,6 +107,9 @@ public class BST<Key extends Comparable<Key>, Value> {
      * @param value 值
      */
     public void put(Key key, Value value) {
+        if (key == null) {
+            throw new IllegalArgumentException("键不能为空");
+        }
         root = put(root, key, value);
     }
 

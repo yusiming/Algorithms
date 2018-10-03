@@ -76,6 +76,8 @@ public class DirectedCycle {
                 cycle.push(v);
             }
         }
+        // 注意递归调用返回时，顶点就不处于栈中了，
+        onStack[v] = false;
     }
 
     /**

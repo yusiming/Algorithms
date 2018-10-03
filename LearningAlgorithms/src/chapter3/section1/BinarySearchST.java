@@ -29,7 +29,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
      * 符号表的大小
      */
     private int N;
-
+    @SuppressWarnings("unchecked")
     public BinarySearchST(int size) {
         keys = (Key[]) new Comparable[size];
         values = (Value[]) new Object[size];
@@ -63,6 +63,7 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
      *
      * @param size 数组大小
      */
+    @SuppressWarnings("unchecked")
     private void resize(int size) {
         if (size > N) {
             Key[] tempKeys = (Key[]) new Comparable[size];

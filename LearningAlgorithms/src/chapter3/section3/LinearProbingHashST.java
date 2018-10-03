@@ -12,7 +12,7 @@ public class LinearProbingHashST<Key, Value> {
     private int m = 0;
     private Key[] keys;
     private Value[] values;
-
+    @SuppressWarnings("unchecked")
     public LinearProbingHashST(int m) {
         keys = (Key[]) new Object[m];
         values = (Value[]) new Object[m];

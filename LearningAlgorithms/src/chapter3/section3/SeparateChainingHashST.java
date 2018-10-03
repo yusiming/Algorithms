@@ -29,6 +29,7 @@ public class SeparateChainingHashST<Key, Value> {
      *
      * @param m 要创建的散列表的大小
      */
+    @SuppressWarnings("unchecked")
     public SeparateChainingHashST(int m) {
         this.m = m;
         st = (SequentialSearchST<Key, Value>[]) new SequentialSearchST[m];

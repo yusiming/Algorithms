@@ -12,7 +12,7 @@ import edu.princeton.cs.algs4.In;
  */
 public class Digraph {
     /**
-     * 顶底的个数
+     * 顶点的个数
      */
     private final int V;
     /**

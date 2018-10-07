@@ -32,7 +32,7 @@ public class PrimMST {
      *
      * @param G 图
      */
-    public PrimMST(EdgeWeightedGraph G) {
+    public PrimMST(EdgeWeightedGraph G, int s) {
         // 初始化各个变量
         int v = G.V();
         edgeTo = new Edge[v];
@@ -40,13 +40,13 @@ public class PrimMST {
         marked = new boolean[v];
         pq = new IndexMinPQ<>(v);
         // 初始化距离最小生成树最近的边的权值
-        for (int i = 1; i < v; i++) {
+        for (int i = 0; i < v; i++) {
             distTo[i] = Double.POSITIVE_INFINITY;
         }
         // 因为顶点已经确定在树中了，所以权值为0.0
-        distTo[0] = 0.0;
+        distTo[s] = 0.0;
         // 将顶点0加入优先队列
-        pq.insert(0, 0.0);
+        pq.insert(s, 0.0);
         // 当优先队列为空时，最小生成树的构造也就完成了
         while (!pq.isEmpty()) {
             visit(G, pq.delMin());

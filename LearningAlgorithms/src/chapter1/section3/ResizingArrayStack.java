@@ -3,6 +3,7 @@ package chapter1.section3;
 import edu.princeton.cs.algs4.In;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * @Auther yusiming
@@ -55,9 +56,13 @@ public class ResizingArrayStack<T> implements Iterable<T> {
     /**
      * 删除并返回最近添加的元素
      *
-     * @return 元素
+     * @return 最近添加的元素
+     * @throws NoSuchElementException 当栈为空时抛出异常
      */
     public T pop() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Stack underflow");
+        }
         T t = a[--N];
         // 弹出去的元素，使其变为空，避免对象游离
         a[N] = null;
@@ -66,6 +71,19 @@ public class ResizingArrayStack<T> implements Iterable<T> {
             resize(N * 2);
         }
         return t;
+    }
+
+    /**
+     * 返回最近添加的元素，但是不删除这个元素
+     *
+     * @return 最近添加的元素
+     * @throws NoSuchElementException 当栈为空时，抛出异常
+     */
+    public T peek() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Stack underflow");
+        }
+        return a[--N];
     }
 
     /**

@@ -1,7 +1,12 @@
 package chapter1.section3;
 
+import edu.princeton.cs.algs4.In;
+
 /**
  * 使用数组实现定容String栈
+ * <p>
+ * 测试所使用的数据
+ * to be or not to - be - - that - - - is
  *
  * @Auther yusiming
  * @Date 2018/8/16 10:40
@@ -56,5 +61,19 @@ public class FixedCapacityStackOfStrings {
      */
     public int size() {
         return N;
+    }
+
+    public static void main(String[] args) {
+        FixedCapacityStackOfStrings stack = new FixedCapacityStackOfStrings(20);
+        In in = new In("test.txt");
+        while (!in.isEmpty()) {
+            String s = in.readString();
+            if (!s.equals("-")) {
+                stack.push(s);
+            } else {
+                stack.pop();
+            }
+        }
+        System.out.println("栈中还有" + stack.size() + "个字符串");
     }
 }

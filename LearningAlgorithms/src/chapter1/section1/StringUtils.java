@@ -46,6 +46,14 @@ public class StringUtils {
         return false;
     }
 
+    /**
+     * 简便方法判断两个字符串是否为回环字符串，
+     * 将字符串分为AB两个部分，若Ab + AB 包含了另一字符串，那么这个字符串就是它的环回变位
+     *
+     * @param a 字符串a
+     * @param b 字符串b
+     * @return 若a是的b的换回变位返回true，否则返回false
+     */
     public static boolean isCirlularRotationFun2(String a, String b) {
         return (a.length() == b.length() && b.concat(b).contains(a));
     }

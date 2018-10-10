@@ -3,7 +3,8 @@ package chapter1.section3;
 import edu.princeton.cs.algs4.In;
 
 /**
- * 使用数组实现定容String栈
+ * 使用数组实现定容String栈，栈的push操作和pop操作所需时间于栈的大小无关，
+ * 但是只能存取字符串，栈的容量也是固定的
  * <p>
  * 测试所使用的数据
  * to be or not to - be - - that - - - is

@@ -74,7 +74,7 @@ public class FixedCapcityStack<T> {
     }
 
     public static void main(String[] args) {
-        FixedCapacityStackOfStrings stack = new FixedCapacityStackOfStrings(20);
+        FixedCapcityStack<String> stack = new FixedCapcityStack<>(20);
         In in = new In("test.txt");
         while (!in.isEmpty()) {
             String s = in.readString();

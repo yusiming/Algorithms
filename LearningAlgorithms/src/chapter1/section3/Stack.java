@@ -126,6 +126,9 @@ public class Stack<T> implements Iterable<T> {
 
             @Override
             public T next() {
+                if (isEmpty()) {
+                    throw new NoSuchElementException();
+                }
                 // 于pop方法类似
                 T t = current.t;
                 current = current.next;

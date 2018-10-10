@@ -139,6 +139,9 @@ public class Queue<T> implements Iterable<T> {
 
             @Override
             public T next() {
+                if (isEmpty()) {
+                    throw new NoSuchElementException();
+                }
                 T t = current.t;
                 current = current.next;
                 return t;

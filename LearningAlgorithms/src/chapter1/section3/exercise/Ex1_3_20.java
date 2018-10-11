@@ -1,55 +1,78 @@
 package chapter1.section3.exercise;
 
 /**
- * @Auther: yusiming
- * @Date: 2018/8/17 13:46
- * @Description:
+ * 删除链表指定位置的元素
+ *
+ * @Auther yusiming
+ * @Date 2018/10/11 16:42
  */
-public class Ex1_3_20 {
-    public static void main(String[] args) {
-        Node node = new Node();
-        for (int i = 0; i < 4; i++) {
-            Node oldNode = node;
-            node = new Node();
-            node.t = i;
-            node.next = oldNode;
-        }
-        for (Node x = node; x.next != null; x = x.next) {
-            System.out.print(x.t + " ");
-        }
-        System.out.println("");
-        delete(1,node);
-        for (Node x = node; x.next != null; x = x.next) {
-            System.out.print(x.t + " ");
-        }
-    }
+public class Ex1_3_20<T> {
+    /**
+     * 首结点
+     */
+    private Node first;
 
-    private static class Node<T> {
+    private class Node {
         T t;
         Node next;
     }
 
+    public Ex1_3_20() {
+        first = null;
+    }
+
     /**
-     * @Description: 删除链表的第k个结点, 如果存在的话，要删除第k个元素，需要遍历到第k-1个元素
-     * @auther: yusiming
-     * @date: 13:48 2018/8/17
-     * @param: [k]
-     * @return: void
+     * 添加元素到链表中
+     *
+     * @param t 元素的值
      */
-    public static void delete(int k, Node first) {
-        if (k == 1) {
-            first.next = null;
-        } else {
-            // 记录遍历的位置
-            int index = 1;
-            for (Node current = first; current.next != null; current = current.next) {
-                // 若index + 1 = k ，此时的current.next = 第k个结点
-                if (index + 1 == k) {
-                    current.next = current.next.next;
-                }
-                index++;
-            }
+    public void addNode(T t) {
+        Node oldFirst = first;
+        first = new Node();
+        first.t = t;
+        first.next = oldFirst;
+    }
+
+    /**
+     * 删除指定位置的元素
+     *
+     * @param k 要删除的元素的位置
+     * @throws IllegalArgumentException 当参数小于1时，抛出异常
+     */
+    public void delete(int k) {
+        if (k < 1) {
+            throw new IllegalArgumentException("参数必须大于等于1");
         }
+        // 若要删除的元素是第一个元素，那么直接使用first
+        if (k == 1) {
+            first = first.next;
+            return;
+        }
+        // 若要删除的元素不是第一个，那么不能使用first
+        Node current = first;
+        for (int i = 1; i < k - 1; i++) {
+            current = current.next;
+        }
+        current.next = current.next.next;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Node x = first; x != null; x = x.next) {
+            stringBuilder.append(x.t);
+            stringBuilder.append(' ');
+        }
+        return stringBuilder.toString();
+    }
+
+    public static void main(String[] args) {
+        Ex1_3_20<Integer> test = new Ex1_3_20<>();
+        for (int i = 0; i < 10; i++) {
+            test.addNode(i);
+        }
+        System.out.println(test.toString());
+        test.delete(3);
+        System.out.println(test.toString());
     }
 }
-

@@ -1,5 +1,7 @@
 package chapter1.section1;
 
+import chapter1.section3.Stack;
+
 /**
  * 对字符的反转
  *
@@ -58,4 +60,40 @@ public class StringUtils {
         return (a.length() == b.length() && b.concat(b).contains(a));
     }
 
+    /**
+     * 返回整数n的二进制表示
+     *
+     * @param n 整数n
+     * @return 整数n的二进制表示
+     */
+    public static String toBinaryString(int n) {
+        Stack<Integer> stack = new Stack<>();
+        boolean isNegative = false;
+        if (n < 0) {
+            n = -n;
+            isNegative = true;
+        }
+        /*
+         * Java中有关余数的定义是：(a / b) * b + a % b = a;
+         * 所以 a % b = a - (a / b) * b;
+         * (-14 % 3) = -14 - (-14 / 3) * 3 = -2
+         * (14 % -3) = 14 - (14 / -3) * -3 = 2;
+         */
+        while (n > 0) {
+            stack.push(n % 2);
+            n = n / 2;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        if (isNegative) {
+            stringBuilder.append('-');
+        }
+        for (int i : stack) {
+            stringBuilder.append(i);
+        }
+        return stringBuilder.toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(StringUtils.toBinaryString(-50));
+    }
 }

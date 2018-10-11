@@ -2,6 +2,8 @@ package chapter1.section3;
 
 import edu.princeton.cs.algs4.In;
 
+import java.util.NoSuchElementException;
+
 /**
  * 使用数组实现存储任意引用类型的栈
  * <p>
@@ -59,6 +61,9 @@ public class FixedCapcityStack<T> {
      * @param t 元素
      */
     public void push(T t) {
+        if (isFull()) {
+            throw new RuntimeException("栈已满");
+        }
         // 将item添加到数组a末尾，同时将栈的长度加一
         a[N++] = t;
     }
@@ -67,10 +72,23 @@ public class FixedCapcityStack<T> {
      * 弹出最近添加的元素
      *
      * @return 元素
+     * @throws NoSuchElementException 当栈为空时，抛出异常
      */
     public T pop() {
+        if (isEmpty()) {
+            throw new NoSuchElementException("Stack underflow");
+        }
         // 弹出元素,同时将栈的大小减一
         return a[--N];
+    }
+
+    /**
+     * 判断栈是否已满
+     *
+     * @return 若栈已满返回true，否则返回false
+     */
+    public boolean isFull() {
+        return N == a.length;
     }
 
     public static void main(String[] args) {

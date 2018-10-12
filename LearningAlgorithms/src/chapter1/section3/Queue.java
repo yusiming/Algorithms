@@ -19,11 +19,11 @@ public class Queue<T> implements Iterable<T> {
     /**
      * 队列的头部结点
      */
-    Node first;
+    private Node first;
     /**
      * 队列的尾部结点
      */
-    Node last;
+    private Node last;
 
     /**
      * 链表数据结构

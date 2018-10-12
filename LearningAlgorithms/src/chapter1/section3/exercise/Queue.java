@@ -1,21 +1,37 @@
 package chapter1.section3.exercise;
 
+import edu.princeton.cs.algs4.In;
+
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
- * @Auther: yusiming
- * @Date: 2018/8/17 17:38
- * @Description: 使用环形链表实现Queue
+ * 使用环形链表实现队列
+ *
+ * @Auther yusiming
+ * @Date 2018/8/17 17:38
  */
 public class Queue<T> implements Iterable<T> {
-    // 只使用last来实现进出队列
-    private Node last = null;
-    private int N = 0;
+    /**
+     * 只使用一个尾结点来实现链表
+     */
+    private Node last;
+    /**
+     * 链表的长度
+     */
+    private int N;
 
     private class Node {
-
         T t;
         Node next;
+    }
+
+    /**
+     * 初始化一个队列
+     */
+    public Queue() {
+        this.last = null;
+        this.N = 0;
     }
 
     public boolean isEmpty() {
@@ -26,36 +42,59 @@ public class Queue<T> implements Iterable<T> {
         return N;
     }
 
+    /**
+     * 向队列的尾部添加元素
+     *
+     * @param t 被添加的元素
+     */
     public void enqueue(T t) {
-        //  保存last
+        /*
+         * 注意：由于只使用了一个last来表示队列的尾部，所以我们将last.next表示为队列的头部，
+         * 可以获得同样的效果，只是在插入第一个元素时，需要注意，last即是尾部也是头部，即last.next = next;
+         */
         Node oldLast = last;
-        // 创建新的last结点
         last = new Node();
         last.t = t;
-        // 若队列为空时，oldLast为null，新的last不为null，新的last应该指向队列的开头，也就是自己
-        if (N == 0) {
+        if (isEmpty()) {
             last.next = last;
         } else {
-            // 若队列不为空，last应该指向队列的开头，也就是oldLast的next，
             last.next = oldLast.next;
-            // oldLast应该指向last，
             oldLast.next = last;
         }
         N++;
     }
 
+    /**
+     * 删除并返回队列头部的元素
+     *
+     * @return 头部删除的元素
+     * @throws NoSuchElementException 当队列为空时，调用此方法，抛出异常
+     */
     public T dequeue() {
-        // 获取队列开头结点的值，
-        T t = last.next.t;
-        // 若队列中只有一个元素，那么也就是last，将last置为空
-        if (N == 1) {
-            last = null;
-        } else {
-            // 若队列中不止有一个结点，那么删除头节点，
-            last.next = last.next.next;
+        if (isEmpty()) {
+            throw new NoSuchElementException("队列为空了，不能删除元素");
         }
-        N--;
-        return t;
+        T t = last.t;
+        if (size() == 1) {
+            // 当只剩一个元素时，last就是头部，直接删除last
+            last = null;
+            N--;
+            return t;
+        } else {
+            last.next = last.next.next;
+            N--;
+            return t;
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (T t : this) {
+            stringBuilder.append(t);
+            stringBuilder.append(' ');
+        }
+        return stringBuilder.toString();
     }
 
     @Override
@@ -80,5 +119,25 @@ public class Queue<T> implements Iterable<T> {
                 return t;
             }
         };
+    }
+
+    public static void main(String[] args) {
+        Queue<String> queue = new Queue<>();
+        In in = new In("test.txt");
+        String s;
+        while (!in.isEmpty()) {
+            s = in.readString();
+            if (!s.equals("-")) {
+                queue.enqueue(s);
+            } else {
+                queue.dequeue();
+            }
+        }
+        System.out.println("队列中还剩" + queue.size() + "个元素");
+        System.out.println(queue.toString());
+        queue.dequeue();
+        System.out.println("队列中还剩" + queue.size() + "个元素");
+        queue.dequeue();
+        System.out.println("队列中还剩" + queue.size() + "个元素");
     }
 }

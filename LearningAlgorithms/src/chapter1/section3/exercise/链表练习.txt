@@ -1,0 +1,108 @@
+给出一段代码，删除链表的尾结点，其中首结点为first，另见Ex1_3_19
+
+    if(first.next == null) {
+        first = null;
+    }
+    Node current = first;
+    while(current.next.next != null) {
+        current = current.next;
+    }
+    current.next = null;
+================================================
+
+编写一个delete()方法，接受一个int参数k，删除链表的第k个元素（如果存在的话）,链表首结点为first，另见Ex1_3_20.java
+    void delete(int k) {
+        if(k < 1) {
+            throw new RuntimeException("参数必须大于1");
+        }
+        if(k == 1) {
+            first = first.next;
+            return;
+        }
+        Node current = first;
+        for(int i = 1;i < k-1;i++) {
+            current = current.next;
+        }
+        current.next = current.next.next;
+    }
+
+================================================
+
+假设x是一条链表中的某个结点，下面这段代码的效果是什么?
+    Node t = new Node();
+    t.next = x.next;
+    x.next = t;
+答：将结点t插入到x之后
+
+================================================
+
+为什么下面这段代码与上面的效果不同？
+    Node t = new Node();
+    x.next = t;
+    t.next = x.next;
+答：t在设置next之前，x就已经将next设置为了t，所以t将自己设置为了next
+
+================================================
+
+编写一个removeAfter方法，接受一个链表结点作为参数，并删除该结点的后续结点
+    void removeAfter(Node node) {
+        if(node.next == null) {
+            return;
+        }
+        node.next = node.next.next;
+    }
+
+================================================
+
+编写一个insertAfter方法，接受两个链表结点作为参数，将第二个结点插入链表使之成为第一个结点的后续结点
+    void insertAfter(Node first,Node second) {
+        second = first.next;
+        first.next = second;
+    }
+
+================================================
+
+编写一个remove方法，接受一条链表和一个字符串作为参数，删除链表中所有item域为key的结点，
+
+    void remove(Node first,String key) {
+        while(first!=null) {
+            if(key.equals(first.t)) {
+                first.t = null
+            }
+            first = first.next;
+        }
+    }
+
+================================================
+
+编写一个方法max(),接受一条链表的首节点作为参数，返回链表中键最大的节点的值，假设所有的键均为正数，如果链表为空，则返回0
+
+    int max(Node first) {
+       if(first == null) {
+            return 0;
+       }
+       int max = 0;
+       while(first!=null) {
+            if(first.t > max) {
+                max = first.t;
+            }
+            first = first.next;
+       }
+       return max;
+    }
+================================================
+
+使用递归的方法解决上面的问题
+递归的最简单情况，node == null，返回
+    int max(Node node,int n) {
+        if(node == null) {
+            return n;
+        }
+        if(node.t > n) {
+            n = t;
+            n = max(node.next,n);
+        } else {
+            n = max(node.next,n);
+        }
+        return n;
+    }

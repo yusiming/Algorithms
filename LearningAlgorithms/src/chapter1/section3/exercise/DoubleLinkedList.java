@@ -99,11 +99,15 @@ public class DoubleLinkedList<T> implements Iterable<T> {
             throw new NoSuchElementException("链表为空，不能删除元素");
         }
         T t = first.t;
+        // 如果只剩一个元素，那么first已经为null了，再次调用first.before将会导致空指针异常
         first = first.after;
-        first.before = null;
+        // N--必须要放在isEmpty()检测之前
         N--;
-        // 如果从头部删除结点之后，链表为空，那么将last也置为null
-        if (isEmpty()) {
+        if (!isEmpty()) {
+            // 如果链表不为空，才能设置before为null，否则会导致空指针异常
+            first.before = null;
+        } else {
+            // 如果链表为空，last也为null
             last = null;
         }
         return t;
@@ -121,10 +125,12 @@ public class DoubleLinkedList<T> implements Iterable<T> {
         }
         T t = last.t;
         last = last.before;
-        last.after = null;
         N--;
-        // 如果从尾部删除结点之后，链表为空，那么将first也置为null
-        if (isEmpty()) {
+        // 只有当链表不为空时，才能设置last.after为null。否则空指针异常
+        if (!isEmpty()) {
+            last.after = null;
+        } else {
+            // 如果从尾部删除结点之后，链表为空，那么将first也置为null
             first = null;
         }
         return t;
@@ -144,7 +150,7 @@ public class DoubleLinkedList<T> implements Iterable<T> {
         // 当位置为1时，其实就是在表头插入新的结点
         if (n == 1) {
             addNodeAtFirst(t);
-            N++;
+            // N++，注意这个如果加上N++，会导致错误，因为addNodeAtFirst(t)中，已经N++了
             return;
         }
         // 当位置不为1时，需要遍历链表，找到结点，但是不能使用first来遍历
@@ -176,7 +182,7 @@ public class DoubleLinkedList<T> implements Iterable<T> {
         // 当位置为N时，其实就是在表尾插入新的结点
         if (n == N) {
             addNodeAtLast(t);
-            N++;
+            // N++; 注意这个如果加上N++，会导致错误，因为addNodeAtLast(t)中，已经N++了
             return;
         }
         // 当位置不为1时，需要遍历链表，找到结点，但是不能使用first来遍历
@@ -224,6 +230,7 @@ public class DoubleLinkedList<T> implements Iterable<T> {
         x.before.after = x.after;
         x.after.before = x.before;
         x = null;
+        N--;
     }
 
     @Override
@@ -261,16 +268,30 @@ public class DoubleLinkedList<T> implements Iterable<T> {
     public static void main(String[] args) {
         DoubleLinkedList<String> list = new DoubleLinkedList<>();
         list.addNodeAtFirst("A");
-        System.out.println(list.toString());
         list.addNodeAtFirst("B");
-        System.out.println(list.toString());
         list.insertBefore(1, "E");
-        System.out.println(list.toString());
         list.insertBefore(2, "C");
-        System.out.println(list.toString());
         list.insertAfter(3, "T");
-        System.out.println(list.toString());
         list.insertAfter(5, "G");
-        System.out.println(list.toString());
+        list.deleteFromFirst();
+        list.deleteFromLast();
+        list.delete(3);
+        list.delete(1);
+        list.delete(1);
+        list.delete(1);
+        /*
+         * 链表的更新过程：
+         * A
+         * B A
+         * E B A
+         * E C B A
+         * E C B T A
+         * E C B T A G
+         * C B T A G
+         * C B T A
+         * C B A
+         * B A
+         * A
+         */
     }
 }
